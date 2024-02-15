@@ -1,0 +1,17 @@
+{
+  "name": "feecurrency",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:celo-org/feecurrency.git",
+  "author": "Celo",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/node": "^20.11.19",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.4",
+    "viem": "^2.7.9"
+  }
+}
