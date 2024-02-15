@@ -11,6 +11,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "dotenv": "^16.4.4",
     "viem": "^2.7.9"
   }
 }
