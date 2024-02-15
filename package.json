@@ -4,5 +4,12 @@
   "main": "index.js",
   "repository": "git@github.com:celo-org/feecurrency.git",
   "author": "Celo",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "viem": "^2.7.9"
+  }
 }
