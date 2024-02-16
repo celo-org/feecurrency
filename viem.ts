@@ -20,7 +20,7 @@ const walletClient = createWalletClient({
     transport: http(),
 });
 
-async function feeCurrencyTransfer() {
+async function nativeTransfer() {
     console.log(`Initiating fee currency transaction...`);
     const transactionHash = await walletClient.sendTransaction({
         account, // Sender
@@ -38,7 +38,7 @@ async function feeCurrencyTransfer() {
     console.log(transactionReceipt);
 }
 
-feeCurrencyTransfer().catch((err) => {
+nativeTransfer().catch((err) => {
     // Handle any errors that might occur in the demos
     console.error("An error occurred:", err);
 });
