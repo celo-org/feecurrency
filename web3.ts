@@ -1,7 +1,8 @@
 import Web3 from "web3";
 import { Connection } from "@celo/connect";
-import { ERC20ABI } from "./erc20Abi";
+import { LocalWallet } from "@celo/wallet-local"
 import "dotenv/config"; // use to read private key from environment variable
+import { ERC20ABI } from "./erc20Abi";
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 if (!PRIVATE_KEY) {
@@ -12,13 +13,11 @@ if (!PRIVATE_KEY) {
 const RECIPIENT = "0x22579CA45eE22E2E16dDF72D955D6cf4c767B0eF"; // arbitrary address
 const CONTRACT_ADDRESS = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1"; // cUSD contract address
 
-// Set up web3js client
+// Set up web3js client and wallet
 const web3 = new Web3("https://alfajores-forno.celo-testnet.org"); // Celo testnet
-const connection = new Connection(web3);
-
-// Set up account
-const account = web3.eth.accounts.wallet.add(`0x${PRIVATE_KEY}`);
-const sender = web3.eth.accounts.wallet[0].address;
+const celoWallet = new LocalWallet();
+celoWallet.addAccount(`0x${PRIVATE_KEY}`);
+const connection = new Connection(web3, celoWallet);
 
 // Set up ERC20 contract
 const contract = new web3.eth.Contract(ERC20ABI, CONTRACT_ADDRESS);
@@ -31,6 +30,11 @@ async function erc20Transfer() {
         // TODO: Adjust the amount to send based on the token's decimals (USDC has 6 decimals)
         web3.utils.toWei("0.01", "ether")
     );
+
+    // Get the sender's address
+    const sender = celoWallet.getAccounts()[0];
+    // Debugging at the moment
+    console.log(`Sender address: ${sender}`)
 
     const transactionReceipt = await connection
         .sendTransaction({
