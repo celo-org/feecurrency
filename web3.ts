@@ -26,17 +26,25 @@ const contract = new web3.eth.Contract(ERC20ABI, CONTRACT_ADDRESS);
 async function erc20Transfer() {
     console.log(`Initiating fee currency transaction...`);
 
-    // TODO: Adjust the amount to send based on the token's decimals (USDC has 6 decimals)
-    const transactionReceipt = await contract.methods
-        .transfer(RECIPIENT, web3.utils.toWei("0.01", "ether"))
-        .send({
+    const transactionObject = contract.methods.transfer(
+        RECIPIENT,
+        // TODO: Adjust the amount to send based on the token's decimals (USDC has 6 decimals)
+        web3.utils.toWei("0.01", "ether")
+    );
+
+    const transactionReceipt = await connection
+        .sendTransaction({
             from: sender,
-            // gasLimit: // TODO: implement gas estimation
+            to: CONTRACT_ADDRESS,
+            gas: 51925, // TODO: implement gas estimation
             maxPriorityFeePerGas: web3.utils.toWei("10", "gwei"),
             maxFeePerGas: web3.utils.toWei("10", "gwei"),
-            // feeCurrency: // TODO: implement fee currency
-        });
-
+            feeCurrency: "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1", // cUSD fee currency
+            data: transactionObject.encodeABI(),
+        })
+        .then((tx) => tx.waitReceipt())
+        .catch((err) => console.error(err));
+    
     console.log(transactionReceipt);
 }
 
