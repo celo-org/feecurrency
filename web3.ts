@@ -60,6 +60,8 @@ async function erc20Transfer() {
     console.log(transactionReceipt);
 }
 
+// TODO(Arthur): Add example using `setFeeCurrency()`
+
 // Initiate the transfer
 erc20Transfer().catch((err) => {
     console.error("An error occurred:", err);
