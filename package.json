@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@celo/connect": "^5.1.2",
+    "@celo/contractkit": "^7.0.0",
     "@celo/wallet-local": "^5.1.2",
     "dotenv": "^16.4.4",
     "viem": "^2.7.9",
