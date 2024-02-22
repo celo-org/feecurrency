@@ -7,6 +7,11 @@
   resolved "https://registry.yarnpkg.com/@adraffy/ens-normalize/-/ens-normalize-1.10.0.tgz#d2a39395c587e092d77cbbc80acf956a54f38bf7"
   integrity sha512-nA9XHtlAkYfJxY7bce8DcN7eKxWWCWkU+1GR9d+U6MbNpfwQp8TI7vqOsBsMcHoT4mBu2kypKoSKnghEzOOq5Q==
 
+"@celo/abis@10.0.0":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@celo/abis/-/abis-10.0.0.tgz#2c1002f2e82b29ca22cec70c988bf90d26fadc68"
+  integrity sha512-DC8UAEz89+1yEQqKzkxOWLYGUv/XWaqPAOkU0lKuQzhvN25ndP3fitawQl53WYn8i3ZPfRWfLO4w75l//tDSbg==
+
 "@celo/base@^6.0.0":
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@celo/base/-/base-6.0.0.tgz#23811b0bc8730a0d13fa90df55a7ec0e90d370cd"
@@ -28,6 +33,27 @@
     web3-core "1.10.0"
     web3-eth "1.10.0"
     web3-eth-contract "1.10.0"
+
+"@celo/contractkit@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@celo/contractkit/-/contractkit-7.0.0.tgz#6878ce9c2b0c381703cfc26195db0678f50b6854"
+  integrity sha512-Knmg2TeO7W363xMNgOC5ZEKWn8RpsO4ARsq8SDLRq2O4v84GnTMPCh43+sIwmckx/d3tklhXrcHq/oLWiNLXYg==
+  dependencies:
+    "@celo/abis" "10.0.0"
+    "@celo/base" "^6.0.0"
+    "@celo/connect" "^5.1.2"
+    "@celo/utils" "^6.0.0"
+    "@celo/wallet-local" "^5.1.2"
+    "@types/bn.js" "^5.1.0"
+    "@types/debug" "^4.1.5"
+    bignumber.js "^9.0.0"
+    cross-fetch "3.0.6"
+    debug "^4.1.1"
+    fp-ts "2.1.1"
+    io-ts "2.0.1"
+    semver "^7.3.5"
+    web3 "1.10.0"
+    web3-core-helpers "1.10.0"
 
 "@celo/utils@^6.0.0":
   version "6.0.0"
@@ -978,6 +1004,13 @@ create-require@^1.1.0:
   resolved "https://registry.yarnpkg.com/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
   integrity sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==
 
+cross-fetch@3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.0.6.tgz#3a4040bc8941e653e0e9cf17f29ebcd177d3365c"
+  integrity sha512-KBPUbqgFjzWlVcURG+Svp9TlhA5uliYtiNx/0r8nv0pdypeQCRJ9IaSIc3q/x3q8t3F75cHuwxVql1HFGHCNJQ==
+  dependencies:
+    node-fetch "2.6.1"
+
 cross-fetch@^3.1.4:
   version "3.1.8"
   resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.8.tgz#0327eba65fd68a7d119f8fb2bf9334a1a7956f82"
@@ -1794,6 +1827,13 @@ lowercase-keys@^3.0.0:
   resolved "https://registry.yarnpkg.com/lowercase-keys/-/lowercase-keys-3.0.0.tgz#c5e7d442e37ead247ae9db117a9d0a467c89d4f2"
   integrity sha512-ozCC6gdQ+glXOQsveKD0YsDy8DSQFjDTz4zyzEHNV5+JP5D62LmfDZ6o1cycFx9ouG940M5dE8C8CTewdj2YWQ==
 
+lru-cache@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-6.0.0.tgz#6d6fe6570ebd96aaf90fcad1dafa3b2566db3a94"
+  integrity sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==
+  dependencies:
+    yallist "^4.0.0"
+
 make-error@^1.1.1:
   version "1.3.6"
   resolved "https://registry.yarnpkg.com/make-error/-/make-error-1.3.6.tgz#2eb2e37ea9b67c4891f684a1394799af484cf7a2"
@@ -1990,6 +2030,11 @@ node-addon-api@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-2.0.2.tgz#432cfa82962ce494b132e9d72a15b29f71ff5d32"
   integrity sha512-Ntyt4AIXyaLIuMHF6IOoTakB3K+RWxwtsHNRxllEoA6vPwP9o4866g6YWDLUdnucilZhmkxiHwHr11gAENw+QA==
+
+node-fetch@2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
+  integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
 
 node-fetch@^2.6.12:
   version "2.7.0"
@@ -2277,6 +2322,13 @@ secp256k1@^4.0.1:
     elliptic "^6.5.4"
     node-addon-api "^2.0.0"
     node-gyp-build "^4.2.0"
+
+semver@^7.3.5:
+  version "7.6.0"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.6.0.tgz#1a46a4db4bffcccd97b743b5005c8325f23d4e2d"
+  integrity sha512-EnwXhrlwXMk9gKu5/flx5sv/an57AkRplG3hTK68W7FRDN+k+OWBj65M7719OkA82XLBxrcX0KSHj+X5COhOVg==
+  dependencies:
+    lru-cache "^6.0.0"
 
 send@0.18.0:
   version "0.18.0"
@@ -3196,6 +3248,11 @@ yallist@^3.0.0, yallist@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-3.1.1.tgz#dbb7daf9bfd8bac9ab45ebf602b8cbad0d5d08fd"
   integrity sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==
+
+yallist@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/yallist/-/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
+  integrity sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
 
 yn@3.1.1:
   version "3.1.1"
