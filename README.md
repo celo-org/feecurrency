@@ -1,6 +1,7 @@
 # Fee Currencies on Celo
 
-Code examples for [docs.celo.org > Paying for Gas in Tokens](https://docs.celo.org/protocol/transaction/erc20-transaction-fees#alfajores-testnet). Visit that page for more information.
+> [!TIP]
+> Code examples for [docs.celo.org > Paying for Gas in Tokens](https://docs.celo.org/protocol/transaction/erc20-transaction-fees#alfajores-testnet). Visit that page for more information.
 
 Fee currency transactions are unique to Celo. Fee currency transactions are made using a 
 custom transaction type described here: `celo-org/txtypes` (TODO(Arthur): link repo). Visit that repository for an explainer 
@@ -48,4 +49,3 @@ interact with core contracts (TODO(Arthur): link docs.celo.org) like `Governance
 
 Instead, we recommend you build with `viem`. But, for completeness, we included a demo in 
 [`contractkit.ts`](/contractkit.ts) so you can see usage patterns.
-
