@@ -12,7 +12,6 @@ import { celoAlfajores } from "viem/chains";
 import {
     PRIVATE_KEY,
     RECIPIENT,
-    cUSD_CONTRACT_ADDRESS,
     USDC_CONTRACT_ADDRESS,
     USDC_ADAPTER_ADDRESS,
 } from "./constants";
@@ -34,7 +33,7 @@ const sender = privateKeyToAccount(`0x${PRIVATE_KEY}`);
  *  Set up ERC20 contract
  */
 const contract = getContract({
-    address: cUSD_CONTRACT_ADDRESS,
+    address: USDC_CONTRACT_ADDRESS,
     abi: erc20Abi,
     client: { public: read, wallet: write },
 });
@@ -54,11 +53,12 @@ async function erc20Transfer() {
 
     const transactionHash = await contract.write.transfer(
         [RECIPIENT, parseUnits("0.01", decimals)],
-        { account: sender, feeCurrency: cUSD_CONTRACT_ADDRESS }
+        { account: sender, feeCurrency: USDC_ADAPTER_ADDRESS }
     );
     console.log(`Done! Transaction hash: ${transactionHash}`);
 }
 
+// Initiate ERC20 transfer with fee currency
 erc20Transfer().catch((err) => {
     console.error("An error occurred:", err);
 });
