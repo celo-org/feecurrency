@@ -1,23 +1,16 @@
 import Web3 from "web3";
-import { Connection } from "@celo/connect";
-import { LocalWallet } from "@celo/wallet-local"
+import { CeloTxReceipt, Connection } from "@celo/connect";
+import { LocalWallet } from "@celo/wallet-local";
 import "dotenv/config";
-import { AbiItem } from 'web3-utils';
+import { AbiItem } from "web3-utils";
 import { ERC20ABI } from "./erc20Abi";
-
-/**
- * Constants
- */
-const RECIPIENT = "0x22579CA45eE22E2E16dDF72D955D6cf4c767B0eF"; // arbitrary address
-const cUSD_CONTRACT_ADDRESS = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1"; // ERC20
-const USDC_CONTRACT_ADDRESS = "0x780c1551C2Be3ea3B1f8b1E4CeDc9C3CE40da24E"; // ERC20
-const USDC_ADAPTER_ADDRESS = "0xDB93874fE111F5a87Acc11Ff09Ee9450Ac6509AE"; // Adapter
-const PRIVATE_KEY = process.env.PRIVATE_KEY;
-if (!PRIVATE_KEY) {
-    throw new Error(
-        "PRIVATE_KEY is not set in .env file. Please set PRIVATE_KEY=<your_private_key> in .env file."
-    );
-}
+import {
+    PRIVATE_KEY,
+    RECIPIENT,
+    cUSD_CONTRACT_ADDRESS,
+    USDC_CONTRACT_ADDRESS,
+    USDC_ADAPTER_ADDRESS,
+} from "./constants";
 
 /**
  * Boilerplate to create a web3js client and web3js-compatible wallet
@@ -32,9 +25,9 @@ const connection = new Connection(web3, celoWallet);
  */
 const contract = new web3.eth.Contract(ERC20ABI as AbiItem[], cUSD_CONTRACT_ADDRESS);
 
-/** 
+/**
  * Makes a transaction to transfer ERC20 tokens using a fee currency
-*/
+ */
 async function erc20Transfer() {
     console.log(`Initiating fee currency transaction...`);
 
@@ -47,7 +40,7 @@ async function erc20Transfer() {
     // Get the sender's address
     const sender = celoWallet.getAccounts()[0];
 
-    const transactionReceipt = await connection
+    const transactionReceipt = (await connection
         .sendTransaction({
             from: sender,
             to: cUSD_CONTRACT_ADDRESS,
@@ -55,9 +48,9 @@ async function erc20Transfer() {
             data: transactionObject.encodeABI(),
         })
         .then((tx) => tx.waitReceipt())
-        .catch((err) => console.error(err));
-    
-    console.log(transactionReceipt);
+        .catch((err) => console.error(err))) as CeloTxReceipt;
+
+    console.log(`Done! Transaction hash: ${transactionReceipt.transactionHash}`);
 }
 
 // TODO(Arthur): Add example using `setFeeCurrency()`

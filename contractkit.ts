@@ -1,19 +1,11 @@
 import { newKit } from "@celo/contractkit";
-import "dotenv/config";
-
-/**
- * Constants
- */
-const RECIPIENT = "0x22579CA45eE22E2E16dDF72D955D6cf4c767B0eF"; // arbitrary address
-const cUSD_CONTRACT_ADDRESS = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1"; // ERC20
-const USDC_CONTRACT_ADDRESS = "0x780c1551C2Be3ea3B1f8b1E4CeDc9C3CE40da24E"; // ERC20
-const USDC_ADAPTER_ADDRESS = "0xDB93874fE111F5a87Acc11Ff09Ee9450Ac6509AE"; // Adapter
-const PRIVATE_KEY = process.env.PRIVATE_KEY;
-if (!PRIVATE_KEY) {
-    throw new Error(
-        "PRIVATE_KEY is not set in .env file. Please set PRIVATE_KEY=<your_private_key> in .env file."
-    );
-}
+import {
+    PRIVATE_KEY,
+    RECIPIENT,
+    cUSD_CONTRACT_ADDRESS,
+    USDC_CONTRACT_ADDRESS,
+    USDC_ADAPTER_ADDRESS,
+} from "./constants";
 
 /**
  * Boilerplate to create a ContractKit instance and ContractKit-compatible wallet
@@ -48,7 +40,7 @@ async function erc20Transfer() {
         feeCurrency: cUSD_CONTRACT_ADDRESS,
     });
 
-    console.log(transactionReceipt);
+    console.log(`Done! Transaction hash: ${transactionReceipt.transactionHash}`);
 }
 
 erc20Transfer().catch((err) => {
