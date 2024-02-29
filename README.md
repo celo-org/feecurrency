@@ -17,7 +17,7 @@ JS/TS client libraries.
 We recommend you build with `viem`, if you are starting from scratch. 
 See demo in [`viem.ts`](/viem.ts).
 
-## RPC client (Experts-only 🟠)
+### Raw transaction (Experts-only 🟠)
 
 We don't recommend constructing fee currency transactions without client libraries, if you are 
 not an expert.
