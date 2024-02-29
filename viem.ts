@@ -58,6 +58,7 @@ async function erc20Transfer() {
     console.log(`Done! Transaction hash: ${transactionHash}`);
 }
 
+// Initiate ERC20 transfer with fee currency
 erc20Transfer().catch((err) => {
     console.error("An error occurred:", err);
 });
