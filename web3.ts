@@ -4,13 +4,7 @@ import { LocalWallet } from "@celo/wallet-local";
 import "dotenv/config";
 import { AbiItem } from "web3-utils";
 import { ERC20ABI } from "./erc20Abi";
-import {
-    PRIVATE_KEY,
-    RECIPIENT,
-    cUSD_CONTRACT_ADDRESS,
-    USDC_CONTRACT_ADDRESS,
-    USDC_ADAPTER_ADDRESS,
-} from "./constants";
+import { PRIVATE_KEY, RECIPIENT, USDC_CONTRACT_ADDRESS, USDC_ADAPTER_ADDRESS } from "./constants";
 
 /**
  * Boilerplate to create a web3js client and web3js-compatible wallet
