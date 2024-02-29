@@ -39,31 +39,25 @@ async function erc20Transfer() {
     ]);
     console.log(`${symbol} balance of ${sender}: ${tokenBalance * Math.pow(10, decimals)}`);
 
-    console.log(`Math.pow: ${web3.utils.toBN(0.01 * Math.pow(10, decimals))}`)
-    console.log(`web3.utils.toWei: ${web3.utils.toWei("0.01", "ether")}`)
-    console.log(`Test: ${(0.01 * Math.pow(10, decimals)).toString() == web3.utils.toWei("0.01", "ether")}`)
+    const transactionObject = contract.methods.transfer(
+        RECIPIENT,
+        web3.utils.toBN(0.01 * Math.pow(10, decimals))
+    );
 
-    // const transactionObject = contract.methods.transfer(
-    //     RECIPIENT,
-    //     web3.utils.toWei("0.01", "ether")
-    // );
+    const transactionReceipt = (await connection
+        .sendTransaction({
+            from: sender,
+            to: cUSD_CONTRACT_ADDRESS,
+            feeCurrency: cUSD_CONTRACT_ADDRESS,
+            data: transactionObject.encodeABI(),
+        })
+        .then((tx) => tx.waitReceipt())
+        .catch((err) => console.error(err))) as CeloTxReceipt;
 
-    // const transactionReceipt = (await connection
-    //     .sendTransaction({
-    //         from: sender,
-    //         to: cUSD_CONTRACT_ADDRESS,
-    //         feeCurrency: cUSD_CONTRACT_ADDRESS,
-    //         data: transactionObject.encodeABI(),
-    //     })
-    //     .then((tx) => tx.waitReceipt())
-    //     .catch((err) => console.error(err))) as CeloTxReceipt;
-
-    // console.log(`Done! Transaction hash: ${transactionReceipt.transactionHash}`);
+    console.log(`Done! Transaction hash: ${transactionReceipt.transactionHash}`);
 }
 
-// TODO(Arthur): Add example using `setFeeCurrency()`
-
-// Initiate the transfer
+// Initiate ERC20 transfer with fee currency
 erc20Transfer().catch((err) => {
     console.error("An error occurred:", err);
 });
