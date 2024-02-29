@@ -1,49 +1,64 @@
-import { createPublicClient, createWalletClient, http, parseEther, parseGwei } from "viem";
+import {
+    createPublicClient,
+    createWalletClient,
+    http,
+    getContract,
+    erc20Abi,
+    parseUnits,
+    formatUnits,
+} from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { celoAlfajores } from "viem/chains";
-import "dotenv/config"; // use to read private key from environment variable
-
-const PRIVATE_KEY = process.env.PRIVATE_KEY;
-if (!PRIVATE_KEY) {
-    throw new Error(
-        "PRIVATE_KEY is not set in .env file. Please set PRIVATE_KEY=<your_private_key> in .env file."
-    );
-}
-const RECIPIENT = "0x22579CA45eE22E2E16dDF72D955D6cf4c767B0eF"; // arbitrary address
+import {
+    PRIVATE_KEY,
+    RECIPIENT,
+    cUSD_CONTRACT_ADDRESS,
+    USDC_CONTRACT_ADDRESS,
+    USDC_ADAPTER_ADDRESS,
+} from "./constants";
 
 /**
- * Boilerplate to create a viem client
+ * Boilerplate to create a viem client and viem-compatible wallet
  */
-const account = privateKeyToAccount(`0x${PRIVATE_KEY}`);
-const publicClient = createPublicClient({
+const read = createPublicClient({
     chain: celoAlfajores,
     transport: http(),
 });
-const walletClient = createWalletClient({
+const write = createWalletClient({
     chain: celoAlfajores, // Celo testnet
     transport: http(),
 });
+const sender = privateKeyToAccount(`0x${PRIVATE_KEY}`);
 
-async function nativeTransfer() {
+/**
+ *  Set up ERC20 contract
+ */
+const contract = getContract({
+    address: cUSD_CONTRACT_ADDRESS,
+    abi: erc20Abi,
+    client: { public: read, wallet: write },
+});
+
+/**
+ * Makes a transaction to transfer ERC20 tokens using a fee currency
+ */
+async function erc20Transfer() {
     console.log(`Initiating fee currency transaction...`);
-    const transactionHash = await walletClient.sendTransaction({
-        account, // Sender
-        to: RECIPIENT, // recipient
-        // TODO: Adjust the amount to send based on the token's decimals (USDC has 6 decimals)
-        value: parseEther("0.01"), // 0.01 CELO
-        feeCurrency: "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1", // cUSD fee currency
-        // gas: // TODO: implement gas estimation
-        maxFeePerGas: parseGwei("10"), // Special field for dynamic fee transaction type (EIP-1559)
-        maxPriorityFeePerGas: parseGwei("10"), // Special field for dynamic fee transaction type (EIP-1559)
-    });
+    
+    const [symbol, decimals, tokenBalance] = await Promise.all([
+        contract.read.symbol(),
+        contract.read.decimals(),
+        contract.read.balanceOf([sender.address]),
+    ]);
+    console.log(`${symbol} balance of ${sender.address}: ${formatUnits(tokenBalance, decimals)}`);
 
-    const transactionReceipt = await publicClient.waitForTransactionReceipt({
-        hash: await transactionHash,
-    });
-
-    console.log(transactionReceipt);
+    const transactionHash = await contract.write.transfer(
+        [RECIPIENT, parseUnits("0.01", decimals)],
+        { account: sender, feeCurrency: cUSD_CONTRACT_ADDRESS }
+    );
+    console.log(`Done! Transaction hash: ${transactionHash}`);
 }
 
-nativeTransfer().catch((err) => {
+erc20Transfer().catch((err) => {
     console.error("An error occurred:", err);
 });
