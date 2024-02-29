@@ -24,7 +24,7 @@ const connection = new Connection(web3, celoWallet);
 /**
  *  Set up ERC20 contract
  */
-const contract = new web3.eth.Contract(ERC20ABI as AbiItem[], cUSD_CONTRACT_ADDRESS);
+const contract = new web3.eth.Contract(ERC20ABI as AbiItem[], USDC_CONTRACT_ADDRESS);
 
 /**
  * Makes a transaction to transfer ERC20 tokens using a fee currency
@@ -37,7 +37,7 @@ async function erc20Transfer() {
         contract.methods.decimals().call(),
         contract.methods.balanceOf(sender).call(),
     ]);
-    console.log(`${symbol} balance of ${sender}: ${tokenBalance * Math.pow(10, decimals)}`);
+    console.log(`${symbol} balance of ${sender}: ${tokenBalance * Math.pow(10, -decimals)}`);
 
     const transactionObject = contract.methods.transfer(
         RECIPIENT,
@@ -47,8 +47,8 @@ async function erc20Transfer() {
     const transactionReceipt = (await connection
         .sendTransaction({
             from: sender,
-            to: cUSD_CONTRACT_ADDRESS,
-            feeCurrency: cUSD_CONTRACT_ADDRESS,
+            to: USDC_CONTRACT_ADDRESS,
+            feeCurrency: USDC_ADAPTER_ADDRESS,
             data: transactionObject.encodeABI(),
         })
         .then((tx) => tx.waitReceipt())
