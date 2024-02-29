@@ -56,7 +56,7 @@ async function erc20Transfer() {
         [RECIPIENT, parseUnits("0.01", decimals)],
         { account: sender, feeCurrency: cUSD_CONTRACT_ADDRESS }
     );
-    console.log(`Transaction hash: ${transactionHash}`);
+    console.log(`Done! Transaction hash: ${transactionHash}`);
 }
 
 erc20Transfer().catch((err) => {
