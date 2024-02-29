@@ -18,6 +18,7 @@ import {
 const web3 = new Web3("https://alfajores-forno.celo-testnet.org"); // Celo testnet
 const celoWallet = new LocalWallet();
 celoWallet.addAccount(`0x${PRIVATE_KEY}`);
+const sender = celoWallet.getAccounts()[0];
 const connection = new Connection(web3, celoWallet);
 
 /**
@@ -31,26 +32,33 @@ const contract = new web3.eth.Contract(ERC20ABI as AbiItem[], cUSD_CONTRACT_ADDR
 async function erc20Transfer() {
     console.log(`Initiating fee currency transaction...`);
 
-    const transactionObject = contract.methods.transfer(
-        RECIPIENT,
-        // TODO: Adjust the amount to send based on the token's decimals (USDC has 6 decimals)
-        web3.utils.toWei("0.01", "ether")
-    );
+    const [symbol, decimals, tokenBalance] = await Promise.all([
+        contract.methods.symbol().call(),
+        contract.methods.decimals().call(),
+        contract.methods.balanceOf(sender).call(),
+    ]);
+    console.log(`${symbol} balance of ${sender}: ${tokenBalance * Math.pow(10, decimals)}`);
 
-    // Get the sender's address
-    const sender = celoWallet.getAccounts()[0];
+    console.log(`Math.pow: ${web3.utils.toBN(0.01 * Math.pow(10, decimals))}`)
+    console.log(`web3.utils.toWei: ${web3.utils.toWei("0.01", "ether")}`)
+    console.log(`Test: ${(0.01 * Math.pow(10, decimals)).toString() == web3.utils.toWei("0.01", "ether")}`)
 
-    const transactionReceipt = (await connection
-        .sendTransaction({
-            from: sender,
-            to: cUSD_CONTRACT_ADDRESS,
-            feeCurrency: cUSD_CONTRACT_ADDRESS,
-            data: transactionObject.encodeABI(),
-        })
-        .then((tx) => tx.waitReceipt())
-        .catch((err) => console.error(err))) as CeloTxReceipt;
+    // const transactionObject = contract.methods.transfer(
+    //     RECIPIENT,
+    //     web3.utils.toWei("0.01", "ether")
+    // );
 
-    console.log(`Done! Transaction hash: ${transactionReceipt.transactionHash}`);
+    // const transactionReceipt = (await connection
+    //     .sendTransaction({
+    //         from: sender,
+    //         to: cUSD_CONTRACT_ADDRESS,
+    //         feeCurrency: cUSD_CONTRACT_ADDRESS,
+    //         data: transactionObject.encodeABI(),
+    //     })
+    //     .then((tx) => tx.waitReceipt())
+    //     .catch((err) => console.error(err))) as CeloTxReceipt;
+
+    // console.log(`Done! Transaction hash: ${transactionReceipt.transactionHash}`);
 }
 
 // TODO(Arthur): Add example using `setFeeCurrency()`
