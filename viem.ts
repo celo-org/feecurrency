@@ -12,7 +12,7 @@ import { celoAlfajores } from "viem/chains";
 import {
     PRIVATE_KEY,
     RECIPIENT,
-    USDC_CONTRACT_ADDRESS,
+    USDC_TOKEN_ADDRESS,
     USDC_ADAPTER_ADDRESS,
 } from "./constants";
 
@@ -33,7 +33,7 @@ const sender = privateKeyToAccount(`0x${PRIVATE_KEY}`);
  *  Set up ERC20 contract
  */
 const contract = getContract({
-    address: USDC_CONTRACT_ADDRESS,
+    address: USDC_TOKEN_ADDRESS,
     abi: erc20Abi,
     client: { public: read, wallet: write },
 });
