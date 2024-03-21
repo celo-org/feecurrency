@@ -4,7 +4,7 @@ import { LocalWallet } from "@celo/wallet-local";
 import "dotenv/config";
 import { AbiItem } from "web3-utils";
 import { ERC20ABI } from "./erc20Abi";
-import { PRIVATE_KEY, RECIPIENT, USDC_CONTRACT_ADDRESS, USDC_ADAPTER_ADDRESS } from "./constants";
+import { PRIVATE_KEY, RECIPIENT, USDC_TOKEN_ADDRESS, USDC_ADAPTER_ADDRESS } from "./constants";
 
 /**
  * Boilerplate to create a web3js client and web3js-compatible wallet
@@ -18,7 +18,7 @@ const connection = new Connection(web3, celoWallet);
 /**
  *  Set up ERC20 contract
  */
-const contract = new web3.eth.Contract(ERC20ABI as AbiItem[], USDC_CONTRACT_ADDRESS);
+const contract = new web3.eth.Contract(ERC20ABI as AbiItem[], USDC_TOKEN_ADDRESS);
 
 /**
  * Makes a transaction to transfer ERC20 tokens using a fee currency
@@ -41,7 +41,7 @@ async function erc20Transfer() {
     const transactionReceipt = (await connection
         .sendTransaction({
             from: sender,
-            to: USDC_CONTRACT_ADDRESS,
+            to: USDC_TOKEN_ADDRESS,
             feeCurrency: USDC_ADAPTER_ADDRESS,
             data: transactionObject.encodeABI(),
         })

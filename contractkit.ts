@@ -1,5 +1,5 @@
 import { newKit } from "@celo/contractkit";
-import { PRIVATE_KEY, RECIPIENT, USDC_CONTRACT_ADDRESS, USDC_ADAPTER_ADDRESS } from "./constants";
+import { PRIVATE_KEY, RECIPIENT, USDC_TOKEN_ADDRESS, USDC_ADAPTER_ADDRESS } from "./constants";
 import { ERC20ABI } from "./erc20Abi";
 import { AbiItem, CeloTxReceipt } from "@celo/connect";
 
@@ -12,7 +12,7 @@ kit.connection.addAccount(`0x${PRIVATE_KEY}`);
 /**
  *  Set up ERC20 contract
  */
-const contract = new kit.web3.eth.Contract(ERC20ABI as AbiItem[], USDC_CONTRACT_ADDRESS);
+const contract = new kit.web3.eth.Contract(ERC20ABI as AbiItem[], USDC_TOKEN_ADDRESS);
 
 /**
  * Makes a transaction to transfer ERC20 tokens using a fee currency
@@ -39,7 +39,7 @@ async function erc20Transfer() {
     const transactionReceipt = (await kit
         .sendTransaction({
             from: sender,
-            to: USDC_CONTRACT_ADDRESS,
+            to: USDC_TOKEN_ADDRESS,
             feeCurrency: USDC_ADAPTER_ADDRESS,
             data: transactionObject.encodeABI(),
         })
