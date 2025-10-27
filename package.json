@@ -6,7 +6,7 @@
   "author": "Celo",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@types/node": "^20.11.19",
+    "@types/node": "^22.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
